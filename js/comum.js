@@ -24,7 +24,14 @@
   ];
   var SECS = [];
   ASSUNTOS.forEach(function (a) { if (SECS.indexOf(a[1]) < 0) SECS.push(a[1]); });
-  var UNIDADES = ['UBS Centro', 'UBS Vila Nova', 'Policlínica Municipal', 'Escola Municipal Monteiro Lobato', 'CEI Pequeno Príncipe', 'Terminal Central', 'Linha 104', 'Praça da Matriz', 'CRAS Bela Vista', 'Praça de Atendimento ao Cidadão'];
+  // Categorias do cadastro de locais (tabela catalogo no Supabase)
+  var CATS = {
+    saude: 'Unidades de saúde', educacao: 'Escolas e CEINFs', onibus: 'Linhas de ônibus e terminais', bairro: 'Bairros', outros: 'Outros locais e serviços'
+  };
+  // Qual lista sugerir para cada assunto
+  var CAT_DO_ASSUNTO = {
+    'Saúde · unidade ou atendimento': 'saude', 'Educação · escola ou creche': 'educacao', 'Transporte coletivo': 'onibus'
+  };
   var STATUS_FIM = ['Respondida', 'Arquivada'];
   var DAY = 864e5;
   var KIND_IC = { imagem: 'i-cam', video: 'i-video', audio: 'i-mic', pdf: 'i-doc' };
@@ -73,7 +80,7 @@
   });
 
   window.OUV = {
-    CFG: CFG, TIPOS: TIPOS, ASSUNTOS: ASSUNTOS, SECS: SECS, UNIDADES: UNIDADES, STATUS_FIM: STATUS_FIM, DAY: DAY, KIND_IC: KIND_IC,
+    CFG: CFG, TIPOS: TIPOS, ASSUNTOS: ASSUNTOS, SECS: SECS, CATS: CATS, CAT_DO_ASSUNTO: CAT_DO_ASSUNTO, STATUS_FIM: STATUS_FIM, DAY: DAY, KIND_IC: KIND_IC,
     $: $, esc: esc, fmtD: fmtD, fmtDT: fmtDT, secOf: secOf, isLate: isLate, toast: toast, lsGet: lsGet, lsSet: lsSet,
     client: client, fillConfig: fillConfig, openModal: openModal, closeModal: closeModal
   };

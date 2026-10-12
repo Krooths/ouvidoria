@@ -52,6 +52,7 @@
     </div>
     <div class="adm-top-r">
       <div class="who" id="who" hidden><b id="whoName"></b><small id="whoRole"></small></div>
+      <button type="button" class="btn-top" id="catBtn" hidden><svg class="i i-sm"><use href="#i-pin"/></svg>Locais</button>
       <button type="button" class="btn-top" id="teamBtn" hidden><svg class="i i-sm"><use href="#i-user"/></svg>Equipe</button>
       <button type="button" class="btn-top" id="logoutBtn" hidden><svg class="i i-sm"><use href="#i-lock"/></svg>Sair</button>
       <a class="btn-top" href="index.html" id="portalLink"><svg class="i i-sm"><use href="#i-back"/></svg>Portal do cidadão</a>
@@ -227,6 +228,35 @@
         <span class="note danger" id="tmErr" role="alert" hidden></span>
         <button class="btn btn-p" type="submit">Liberar acesso</button>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- Cadastro de locais -->
+<div class="modal" id="m-cat" hidden role="dialog" aria-modal="true" aria-labelledby="catTitle">
+  <div class="sheet" style="max-width:640px">
+    <div class="sheet-h">
+      <svg class="i" style="width:28px;height:28px;color:var(--teal)"><use href="#i-pin"/></svg>
+      <div><h2 id="catTitle">Locais do formulário</h2><p>Nomes que aparecem como sugestão quando o cidadão digita.</p></div>
+      <button type="button" class="x" data-close aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="sheet-b">
+      <div class="field"><label class="lbl-s" for="catSel">Lista</label><select class="in" id="catSel"></select></div>
+      <form class="team-form" id="catForm" novalidate style="border-top:0;padding-top:0">
+        <div class="field">
+          <label class="lbl-s" for="catText">Adicionar nomes (um por linha)</label>
+          <textarea class="in" id="catText" style="min-height:140px" placeholder="Cole aqui a lista oficial, um nome por linha.&#10;Ex.:&#10;USF Caiçara&#10;USF Itamaracá"></textarea>
+          <span class="help">Pode colar direto de uma planilha. Nomes repetidos são ignorados.</span>
+        </div>
+        <span class="note danger" id="catErr" role="alert" hidden></span>
+        <button class="btn btn-p" type="submit" id="catAdd">Adicionar à lista</button>
+      </form>
+      <div class="inbox-h" style="margin-top:6px">
+        <b id="catCount" style="font-family:var(--f-cond);font-size:1.1rem;text-transform:uppercase;letter-spacing:.03em"></b>
+        <label class="sr" for="catQ">Buscar na lista</label>
+        <input class="in" id="catQ" placeholder="Buscar na lista" style="margin-left:auto;max-width:220px;height:40px">
+      </div>
+      <div class="team" id="catList"></div>
     </div>
   </div>
 </div>

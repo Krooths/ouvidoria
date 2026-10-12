@@ -118,8 +118,9 @@
     </div>
 
     <div class="field">
-      <label class="lbl" for="unidade">Unidade ou serviço <span class="opt">(opcional)</span></label>
-      <input class="in" id="unidade" list="unidades" placeholder="Ex.: UBS Vila Nova, Escola Municipal, Linha 104" autocomplete="off">
+      <label class="lbl" for="unidade"><span id="unidadeLbl">Unidade ou serviço</span> <span class="opt">(opcional)</span></label>
+      <input class="in" id="unidade" list="unidades" placeholder="Comece a digitar o nome" autocomplete="off">
+      <span class="help" id="unidadeHelp" hidden></span>
       <datalist id="unidades"></datalist>
     </div>
 
@@ -142,7 +143,8 @@
       </div>
       <div class="field">
         <label class="lbl-s" for="bairro">Bairro</label>
-        <input class="in" id="bairro" placeholder="Ex.: Centro">
+        <input class="in" id="bairro" list="bairros" placeholder="Comece a digitar o bairro" autocomplete="off">
+        <datalist id="bairros"></datalist>
       </div>
     </div>
 

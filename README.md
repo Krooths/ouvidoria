@@ -67,6 +67,18 @@ Também funciona em Vercel ou Netlify: importe o repositório, sem nenhuma confi
 - No painel, ela aparece na caixa de entrada em até 1 minuto, ou na hora, pelo botão **Atualizar**.
 - Mude a situação e escreva uma mensagem. Depois, consulte o protocolo no portal: a mensagem aparece para o cidadão.
 
+## Locais do formulário (unidades de saúde, escolas, ônibus, bairros)
+
+No painel, o(a) Ouvidor(a) tem o botão **Locais**. Ali dá para colar as listas oficiais, um nome por linha, em cinco listas: unidades de saúde, escolas e CEINFs, linhas de ônibus e terminais, bairros e outros locais.
+
+- No portal, quando o cidadão escolhe o assunto Saúde, Educação ou Transporte coletivo, o campo de local sugere os nomes da lista correspondente. O campo Bairro sugere os bairros cadastrados.
+- O cidadão ainda pode escrever um nome que não esteja na lista.
+- Um nome pode ser **ocultado** (sai do formulário, mas continua nas manifestações antigas) ou **excluído**.
+
+**Projeto criado antes desta versão?** Rode uma vez o arquivo `supabase/atualizacao-1-locais.sql` no SQL Editor do Supabase.
+
+Fontes sugeridas para as listas: SESAU (unidades de saúde), SEMED (escolas e EMEIs/CEINFs), Agereg (linhas de ônibus) e Planurb (bairros oficiais).
+
 ## Perfis de acesso
 
 | Perfil | Vê | Pode |

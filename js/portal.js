@@ -44,7 +44,28 @@
     pl.appendChild(l);
   });
   $('assunto').innerHTML = O.ASSUNTOS.map(function (a) { return '<option>' + esc(a[0]) + '</option>'; }).join('');
-  $('unidades').innerHTML = O.UNIDADES.map(function (u) { return '<option value="' + esc(u) + '"></option>'; }).join('');
+  // Sugestões de locais vindas do cadastro da Ouvidoria (tabela catalogo)
+  var catalogo = { saude: [], educacao: [], onibus: [], bairro: [], outros: [] };
+  var ROTULO = { saude: ['Unidade de saúde', 'Ex.: nome da USF, UBS ou UPA'], educacao: ['Escola ou CEINF', 'Ex.: nome da escola ou do CEINF'], onibus: ['Linha de ônibus ou terminal', 'Ex.: número ou nome da linha'] };
+  function opts(list) { return list.map(function (n) { return '<option value="' + esc(n) + '"></option>'; }).join(''); }
+  function syncLocais() {
+    var cat = O.CAT_DO_ASSUNTO[$('assunto').value];
+    var r = ROTULO[cat] || ['Unidade ou serviço', 'Comece a digitar o nome'];
+    $('unidadeLbl').textContent = r[0]; $('unidade').placeholder = r[1];
+    var list = cat ? catalogo[cat] : catalogo.outros.concat(catalogo.saude, catalogo.educacao);
+    $('unidades').innerHTML = opts(list);
+    var h = $('unidadeHelp');
+    h.hidden = !(cat && catalogo[cat].length);
+    h.textContent = cat && catalogo[cat].length ? 'Toque no campo para ver a lista. Se não encontrar, escreva o nome.' : '';
+  }
+  if (sb) sb.from('catalogo').select('categoria,nome').eq('ativo', true).order('nome').limit(5000).then(function (res) {
+    if (res.error || !res.data) return;
+    res.data.forEach(function (x) { if (catalogo[x.categoria]) catalogo[x.categoria].push(x.nome); });
+    $('bairros').innerHTML = opts(catalogo.bairro);
+    syncLocais();
+  });
+  $('assunto').addEventListener('change', syncLocais);
+  syncLocais();
   function syncSec() { $('secHelp').textContent = 'Vai para: ' + secOf($('assunto').value); }
   $('assunto').addEventListener('change', syncSec); syncSec();
 
@@ -217,7 +238,7 @@
   function resetForm() {
     $('s-relato').reset(); $('s-ident').reset(); $('s-rev').reset();
     files.forEach(function (f) { try { URL.revokeObjectURL(f.url); } catch (e) {} }); files = []; renderThumbs();
-    $('descCount').textContent = '0 / 2.000'; $('gpsMsg').hidden = true; syncModo(); syncSec();
+    $('descCount').textContent = '0 / 2.000'; $('gpsMsg').hidden = true; syncModo(); syncSec(); syncLocais();
     document.querySelector('input[name=tipo]').checked = true;
   }
   function copyText(t, el) {

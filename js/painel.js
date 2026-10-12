@@ -18,7 +18,7 @@
   function showLogin(which, msg) {
     $('admMain').hidden = true; $('admLogin').hidden = false;
     ['loginForm', 'signupForm', 'recoveryForm'].forEach(function (id) { $(id).hidden = id !== which + 'Form'; });
-    ['who', 'teamBtn', 'logoutBtn'].forEach(function (id) { $(id).hidden = true; });
+    ['who', 'teamBtn', 'catBtn', 'logoutBtn'].forEach(function (id) { $(id).hidden = true; });
     if (which === 'login') showErr('lgErr', msg); else if (which === 'signup') showErr('suErr', msg); else showErr('rcErr', msg);
   }
   function pwdOk(p) { return p.length >= 10 && /[A-Za-zÀ-ú]/.test(p) && /\d/.test(p); }
@@ -106,7 +106,7 @@
   function showPanel() {
     $('admLogin').hidden = true; $('admMain').hidden = false;
     $('whoName').textContent = me.nome; $('whoRole').textContent = PERFIS[me.perfil] + (me.perfil === 'secretaria' ? ' · ' + me.secretaria : '');
-    $('who').hidden = false; $('logoutBtn').hidden = false; $('teamBtn').hidden = me.perfil !== 'ouvidor';
+    $('who').hidden = false; $('logoutBtn').hidden = false; $('teamBtn').hidden = me.perfil !== 'ouvidor'; $('catBtn').hidden = me.perfil !== 'ouvidor';
     if (!adm.started) {
       adm.started = true;
       $('fSec').innerHTML = '<option value="">Todas</option>' + SECS.map(function (s) { return '<option>' + esc(s) + '</option>'; }).join('');
@@ -329,6 +329,66 @@
     var r = adm.open && real[adm.open]; if (!r || me.perfil !== 'ouvidor') return;
     var ev = (r.eventos || []).slice(); ev.push({ t: r.sinalizada ? 'Sinalização de conteúdo removida' : 'Conteúdo sinalizado como impróprio e preservado como registro', d: new Date().toISOString(), por: 'interno', autor: me.nome });
     saveAdm(r, { sinalizada: !r.sinalizada, eventos: ev }, r.sinalizada ? 'Sinalização removida' : 'Conteúdo sinalizado e preservado');
+  });
+
+  /* ================= Locais do formulário ================= */
+  var catItems = [];
+  $('catSel').innerHTML = Object.keys(O.CATS).map(function (k) { return '<option value="' + k + '">' + esc(O.CATS[k]) + '</option>'; }).join('');
+  $('catBtn').addEventListener('click', function () {
+    if (!me || me.perfil !== 'ouvidor') return;
+    showErr('catErr', ''); loadCat(); O.openModal('m-cat');
+  });
+  $('catSel').addEventListener('change', loadCat);
+  $('catQ').addEventListener('input', renderCat);
+  function loadCat() {
+    var c = $('catSel').value;
+    $('catList').innerHTML = '<div class="help">Carregando…</div>';
+    sb.from('catalogo').select('nome,ativo').eq('categoria', c).order('nome').limit(5000).then(function (res) {
+      if (res.error) { $('catList').innerHTML = '<div class="help">Não foi possível carregar. Confira se a atualização do banco (atualizacao-1-locais.sql) foi aplicada.</div>'; $('catCount').textContent = ''; return; }
+      catItems = res.data; renderCat();
+    });
+  }
+  function renderCat() {
+    var q = $('catQ').value.trim().toLowerCase();
+    var rows = q ? catItems.filter(function (x) { return x.nome.toLowerCase().indexOf(q) >= 0; }) : catItems;
+    $('catCount').textContent = catItems.length + (catItems.length === 1 ? ' nome' : ' nomes');
+    $('catList').innerHTML = rows.slice(0, 300).map(function (x) {
+      return '<div class="tm' + (x.ativo ? '' : ' off') + '"><div class="nm"><b>' + esc(x.nome) + '</b>' + (x.ativo ? '' : '<small>oculto do formulário</small>') + '</div>' +
+        '<div class="acts"><button type="button" data-cat-toggle="' + esc(x.nome) + '">' + (x.ativo ? 'Ocultar' : 'Mostrar') + '</button><button type="button" data-cat-del="' + esc(x.nome) + '">Excluir</button></div></div>';
+    }).join('') + (rows.length > 300 ? '<div class="help">Mostrando 300 de ' + rows.length + '. Use a busca para encontrar os demais.</div>' : '') || '<div class="help">Lista vazia. Cole os nomes acima.</div>';
+  }
+  $('catList').addEventListener('click', function (e) {
+    var t = e.target.closest('[data-cat-toggle]'), d = e.target.closest('[data-cat-del]'), c = $('catSel').value;
+    if (t) {
+      var n = t.getAttribute('data-cat-toggle'), it = catItems.filter(function (x) { return x.nome === n; })[0]; if (!it) return;
+      t.disabled = true;
+      sb.from('catalogo').update({ ativo: !it.ativo }).eq('categoria', c).eq('nome', n).then(function (res) { if (res.error) toast('Não foi possível alterar.'); loadCat(); });
+    }
+    if (d) {
+      var n2 = d.getAttribute('data-cat-del');
+      if (d.getAttribute('data-confirm') !== '1') { d.setAttribute('data-confirm', '1'); d.textContent = 'Confirmar exclusão'; return; }
+      d.disabled = true;
+      sb.from('catalogo').delete().eq('categoria', c).eq('nome', n2).then(function (res) { toast(res.error ? 'Não foi possível excluir.' : 'Excluído'); loadCat(); });
+    }
+  });
+  $('catForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var c = $('catSel').value, seen = {}, have = {};
+    catItems.forEach(function (x) { have[x.nome.toLowerCase()] = 1; });
+    var nomes = $('catText').value.split(/\r?\n/).map(function (s) { return s.replace(/\t.*$/, '').replace(/\s+/g, ' ').trim(); })
+      .filter(function (s) { var k = s.toLowerCase(); if (s.length < 2 || s.length > 120 || seen[k] || have[k]) return false; seen[k] = 1; return true; });
+    if (!nomes.length) { showErr('catErr', 'Nenhum nome novo para adicionar.'); return; }
+    showErr('catErr', ''); var btn = $('catAdd'); btn.disabled = true; btn.textContent = 'Adicionando…';
+    var rows = nomes.map(function (n) { return { categoria: c, nome: n, ativo: true }; }), chain = Promise.resolve(), fail = false;
+    for (var i = 0; i < rows.length; i += 500) (function (part) {
+      chain = chain.then(function () { return sb.from('catalogo').upsert(part, { onConflict: 'categoria,nome', ignoreDuplicates: true }).then(function (res) { if (res.error) fail = true; }); });
+    })(rows.slice(i, i + 500));
+    chain.then(function () {
+      btn.disabled = false; btn.textContent = 'Adicionar à lista';
+      if (fail) { showErr('catErr', 'Parte dos nomes não foi salva. Tente de novo.'); }
+      else { $('catText').value = ''; toast(nomes.length + (nomes.length === 1 ? ' nome adicionado' : ' nomes adicionados')); }
+      loadCat();
+    });
   });
 
   /* ================= Equipe ================= */
