@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Painel da Ouvidoria</title>
+<meta name="description" content="Acesso restrito à equipe da Ouvidoria Municipal.">
+<meta name="theme-color" content="#123F8C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/estilo.css">
+<meta name="robots" content="noindex,nofollow">
+</head>
+<body class="adm-on">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-build" viewBox="0 0 24 24"><path d="M4 21h16M6 21V10M18 21V10M10 21v-6h4v6M3 10l9-6 9 6"/></symbol>
+  <symbol id="i-speak" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 9a4 4 0 0 1 0 6"/><path d="M18 6a8 8 0 0 1 0 12"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M12 8v5"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h4"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+  <symbol id="i-gps" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-7z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M5 21h14M6 7h12M6 7l-3 7a3 3 0 0 0 6 0zM18 7l-3 7a3 3 0 0 0 6 0z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+</svg>
+<div class="adm" id="adm">
+  <header class="adm-top">
+    <div class="brand">
+      <span class="seal"><svg class="i"><use href="#i-grid"/></svg></span>
+      <div><small>Prefeitura de <span data-cfg="municipio">[MUNICÍPIO]</span></small><b>Painel da Ouvidoria</b></div>
+    </div>
+    <div class="adm-top-r">
+      <label class="tgl" id="demoWrap" hidden><input type="checkbox" id="demoTgl">Incluir dados de exemplo</label>
+      <div class="who" id="who" hidden><b id="whoName"></b><small id="whoRole"></small></div>
+      <button type="button" class="btn-top" id="teamBtn" hidden><svg class="i i-sm"><use href="#i-user"/></svg>Equipe</button>
+      <button type="button" class="btn-top" id="logoutBtn" hidden><svg class="i i-sm"><use href="#i-lock"/></svg>Sair</button>
+      <a class="btn-top" href="index.html" id="portalLink"><svg class="i i-sm"><use href="#i-back"/></svg>Portal do cidadão</a>
+    </div>
+  </header>
+
+    <div class="login" id="admLogin">
+    <div class="login-card">
+      <div class="login-head">
+        <div class="placa">
+          <div class="placa-row"><div class="placa-t"><b>PAINEL</b><span>DA OUVIDORIA</span></div>
+          <svg class="i" style="width:34px;height:34px;color:var(--yellow)"><use href="#i-lock"/></svg></div>
+          <p style="font-size:.9rem">Acesso restrito à equipe da Prefeitura de <span data-cfg="municipio"><span data-cfg="municipio">[MUNICÍPIO]</span></span>.</p>
+        </div>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <h2>Entrar</h2>
+        <div class="field">
+          <label class="lbl-s" for="lgEmail">E-mail</label>
+          <input class="in" id="lgEmail" type="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="nome@prefeitura.gov.br">
+        </div>
+        <div class="field">
+          <label class="lbl-s" for="lgPass">Senha</label>
+          <div class="pwd"><input class="in" id="lgPass" type="password" autocomplete="current-password"><button type="button" data-show="lgPass">Mostrar</button></div>
+        </div>
+        <span class="note danger" id="lgErr" role="alert" hidden></span>
+        <button class="btn btn-p" type="submit" id="lgBtn">Entrar</button>
+        <div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <button type="button" class="linkbtn" id="forgotBtn">Esqueci minha senha</button>
+          <button type="button" class="linkbtn" id="toSignup">Primeiro acesso: criar senha</button>
+        </div>
+      </form>
+
+      <form id="signupForm" novalidate hidden>
+        <h2>Primeiro acesso</h2>
+        <p>Use o e-mail que a Ouvidoria cadastrou para você. Depois de criar a senha, confirme pelo link que chega no seu e-mail.</p>
+        <div class="field"><label class="lbl-s" for="suEmail">E-mail</label><input class="in" id="suEmail" type="email" autocomplete="username" autocapitalize="none" spellcheck="false"></div>
+        <div class="field"><label class="lbl-s" for="suPass">Crie uma senha</label><div class="pwd"><input class="in" id="suPass" type="password" autocomplete="new-password" aria-describedby="pwRule1"><button type="button" data-show="suPass">Mostrar</button></div><span class="help" id="pwRule1">Mínimo de 10 caracteres, com letras e números.</span></div>
+        <div class="field"><label class="lbl-s" for="suPass2">Confirme a senha</label><input class="in" id="suPass2" type="password" autocomplete="new-password"></div>
+        <span class="note danger" id="suErr" role="alert" hidden></span>
+        <span class="note info" id="suOk" role="status" hidden></span>
+        <button class="btn btn-p" type="submit">Criar senha</button>
+        <button type="button" class="linkbtn" id="toLogin">Já tenho senha: entrar</button>
+      </form>
+
+      <form id="recoveryForm" novalidate hidden>
+        <h2>Nova senha</h2>
+        <p>Defina a nova senha de acesso ao painel.</p>
+        <div class="field"><label class="lbl-s" for="rcPass">Nova senha</label><div class="pwd"><input class="in" id="rcPass" type="password" autocomplete="new-password" aria-describedby="pwRule2"><button type="button" data-show="rcPass">Mostrar</button></div><span class="help" id="pwRule2">Mínimo de 10 caracteres, com letras e números.</span></div>
+        <div class="field"><label class="lbl-s" for="rcPass2">Confirme a nova senha</label><input class="in" id="rcPass2" type="password" autocomplete="new-password"></div>
+        <span class="note danger" id="rcErr" role="alert" hidden></span>
+        <button class="btn btn-p" type="submit">Salvar senha e entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <main class="adm-main" id="admMain" hidden>
+    <div class="adm-h">
+      <div>
+        <h1>Manifestações recebidas</h1>
+        <p id="admSub">Carregando…</p>
+      </div>
+      <button type="button" class="btn btn-g" id="refreshBtn" style="flex:none;margin-left:auto">Atualizar</button>
+    </div>
+    <div class="banner" id="demoBanner" hidden><svg class="i i-sm"><use href="#i-alert"/></svg><span id="demoBannerTxt"></span></div>
+
+    <section class="filters" aria-label="Filtros">
+      <div class="field"><label class="lbl-s" for="fPer">Período</label>
+        <select class="in" id="fPer"><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option><option value="90" selected>Últimos 90 dias</option><option value="0">Tudo</option></select></div>
+      <div class="field"><label class="lbl-s" for="fSec">Secretaria</label><select class="in" id="fSec"></select></div>
+      <div class="field"><label class="lbl-s" for="fBai">Bairro</label><select class="in" id="fBai"></select></div>
+      <div class="field"><label class="lbl-s" for="fSt">Situação</label>
+        <select class="in" id="fSt"><option value="">Todas</option><option>Nova</option><option>Em análise</option><option>Encaminhada</option><option>Respondida</option><option>Arquivada</option><option value="late">Fora do prazo</option></select></div>
+      <div class="field" style="flex:2 1 300px"><span class="lbl-s">Tipo</span><div class="fchips" id="fTipo"></div></div>
+      <button type="button" class="clear" id="fClear">Limpar filtros</button>
+    </section>
+
+    <section class="kpis" id="kpis" aria-label="Indicadores"></section>
+
+    <div class="grid2">
+      <section class="panel">
+        <div class="ph">
+          <div><h2><i style="background:var(--s-recl)"></i>Mais reclamados</h2><div class="sub">Reclamações no período filtrado</div></div>
+          <div class="act seg" data-dim="recl"><button type="button" data-v="local" aria-pressed="true">Locais</button><button type="button" data-v="servico" aria-pressed="false">Serviços</button></div>
+        </div>
+        <div class="hbars" id="chRecl"></div>
+      </section>
+      <section class="panel">
+        <div class="ph">
+          <div><h2><i style="background:var(--s-elog)"></i>Mais elogiados</h2><div class="sub">Elogios no período filtrado</div></div>
+          <div class="act seg" data-dim="elog"><button type="button" data-v="local" aria-pressed="true">Locais</button><button type="button" data-v="servico" aria-pressed="false">Serviços</button></div>
+        </div>
+        <div class="hbars" id="chElog"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="ph">
+        <div><h2>Reclamações e elogios por secretaria</h2><div class="sub">Toque em uma secretaria para filtrar o painel</div></div>
+        <div class="act legend"><span><i style="background:var(--s-recl)"></i>Reclamações</span><span><i style="background:var(--s-elog)"></i>Elogios</span></div>
+      </div>
+      <div class="hbars" id="chSec" style="gap:10px"></div>
+    </section>
+
+    <section class="panel">
+      <div class="inbox-h">
+        <div><h2 style="font-size:1rem">Caixa de entrada</h2><div class="sub help" id="inboxCount"></div></div>
+        <label class="sr" for="fQ">Buscar</label>
+        <input class="in" id="fQ" placeholder="Buscar protocolo, local ou texto" style="margin-left:auto">
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Protocolo</th><th>Tipo</th><th>Assunto e local</th><th>Secretaria</th><th>Recebida</th><th>Mídia</th><th>Situação</th></tr></thead>
+          <tbody id="inbox"></tbody>
+        </table>
+      </div>
+      <button type="button" class="btn btn-g more" id="moreBtn" hidden style="flex:none">Mostrar mais</button>
+    </section>
+  </main>
+</div>
+
+<!-- Detalhe da manifestação -->
+<div class="drawer" id="drawer" hidden role="dialog" aria-modal="true" aria-labelledby="dwNum">
+  <div class="drawer-p">
+    <div class="drawer-h">
+      <div style="min-width:0;display:flex;flex-direction:column;gap:4px">
+        <span class="mono" id="dwNum"></span>
+        <div id="dwTags" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      </div>
+      <button type="button" class="back" id="dwClose" aria-label="Fechar" style="margin-left:auto;color:var(--text)"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="drawer-b" id="dwBody"></div>
+    <form class="act-form" id="dwForm" novalidate>
+      <div class="row">
+        <div class="field"><label class="lbl-s" for="dwStatus">Situação</label>
+          <select class="in" id="dwStatus"><option>Nova</option><option>Em análise</option><option>Encaminhada</option><option>Respondida</option><option>Arquivada</option></select></div>
+        <div class="field"><label class="lbl-s" for="dwSec">Secretaria responsável</label><select class="in" id="dwSec"></select></div>
+      </div>
+      <div class="field"><label class="lbl-s" for="dwMsg">Mensagem ao cidadão <span class="opt">(aparece no acompanhamento)</span></label>
+        <textarea class="in" id="dwMsg" placeholder="Ex.: A equipe de iluminação incluiu o endereço na programação de vistoria."></textarea></div>
+      <span class="help" id="dwNote" hidden></span>
+      <div class="row">
+        <button type="button" class="btn btn-g" id="dwFlag" style="flex:none;color:var(--danger)"><svg class="i i-sm"><use href="#i-flag"/></svg>Sinalizar conteúdo impróprio</button>
+        <button type="submit" class="btn btn-p" id="dwSave" style="flex:1;width:auto">Salvar andamento</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Equipe com acesso ao painel -->
+<div class="modal" id="m-team" hidden role="dialog" aria-modal="true" aria-labelledby="teamTitle">
+  <div class="sheet" style="max-width:640px">
+    <div class="sheet-h">
+      <svg class="i" style="width:28px;height:28px;color:var(--teal)"><use href="#i-user"/></svg>
+      <div><h2 id="teamTitle">Equipe do painel</h2><p>Quem pode entrar e o que cada perfil vê.</p></div>
+      <button type="button" class="x" data-close aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="sheet-b">
+      <div class="note info" style="font-size:.86rem"><svg class="i i-sm" style="margin-top:2px"><use href="#i-lock"/></svg><div><b>Perfis</b>Ouvidor(a): vê tudo e gerencia a equipe. Secretaria: vê só as manifestações da própria secretaria, sem a identidade de quem pediu sigilo. Consulta: vê gráficos e manifestações, sem dados pessoais, sem arquivos e sem alterar nada.</div></div>
+      <div class="tempbox" id="tempBox" hidden></div>
+      <div class="team" id="teamList"></div>
+      <form class="team-form" id="teamForm" novalidate>
+        <h3 style="font-family:var(--f-cond);font-size:1.25rem;text-transform:uppercase;letter-spacing:.03em;margin:0">Liberar acesso</h3>
+        <p class="help" style="margin:0">A pessoa cria a própria senha no primeiro acesso, com o e-mail cadastrado aqui. Nenhuma senha passa por você.</p>
+        <div class="row">
+          <div class="field"><label class="lbl-s" for="tmName">Nome completo</label><input class="in" id="tmName"></div>
+          <div class="field"><label class="lbl-s" for="tmEmail">E-mail</label><input class="in" id="tmEmail" type="email" autocapitalize="none" spellcheck="false" placeholder="nome@prefeitura.gov.br"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label class="lbl-s" for="tmRole">Perfil</label><select class="in" id="tmRole"><option value="secretaria">Secretaria</option><option value="consulta">Consulta</option><option value="ouvidor">Ouvidor(a)</option></select></div>
+          <div class="field" id="tmSecWrap"><label class="lbl-s" for="tmSec">Secretaria</label><select class="in" id="tmSec"></select></div>
+        </div>
+        <span class="note danger" id="tmErr" role="alert" hidden></span>
+        <button class="btn btn-p" type="submit">Liberar acesso</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="ctip" id="ctip" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="js/comum.js"></script>
+<script src="js/painel.js"></script>
+</body>
+</html>
