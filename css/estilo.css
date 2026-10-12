@@ -1,3 +1,5 @@
+[hidden]{display:none!important}
+html,body{margin:0}
 /* Layout: sinalização urbana — portal em uma coluna de celular (máx. 480px) com faixas de cor de ponta a ponta; painel em grade larga (máx. 1320px) que empilha no celular */
 :root{
   --navy:#123F8C; --navy-2:#0E3170; --navy-line:#5A7CC0;

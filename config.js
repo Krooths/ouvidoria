@@ -6,11 +6,11 @@
 // NUNCA coloque aqui a "service_role key".
 // =====================================================================
 window.OUVIDORIA_CONFIG = {
-  supabaseUrl: 'https://krooths.github.io/ouvidoria/painel.html',
+  supabaseUrl: 'https://zbybconyeidrtuitneej.supabase.co',
   supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpieWJjb255ZWlkcnR1aXRuZWVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4MjI3OTUsImV4cCI6MjEwNzM5ODc5NX0.Gyv-1zCQ_AM0yDCF-5tMd6UBeu20wjBBDOhdk8K6v6U',
 
-  municipio: '[CAMPO GRANDE]',
-  whatsapp: '[67992241225]',
+  municipio: 'Campo Grande',
+  whatsapp: '(67) 99224-1225',
   telefone: '[TELEFONE] · seg a sex, [HORÁRIO]',
   endereco: '[ENDEREÇO DA OUVIDORIA]',
   encarregadoNome: '[NOME DO ENCARREGADO]',
