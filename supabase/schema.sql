@@ -308,5 +308,5 @@ create policy midias_ver on storage.objects for select to authenticated
 -- 9. PRIMEIRO(A) OUVIDOR(A) — troque o e-mail e o nome abaixo antes de rodar
 -- ---------------------------------------------------------------------
 insert into public.equipe (email, nome, perfil, criado_por)
-values (lower('seu-email@prefeitura.gov.br'), 'Seu nome completo', 'ouvidor', 'instalação')
+values (lower('higab6@gmail.com'), 'Bruno Higa', 'ouvidor', 'instalação')
 on conflict (email) do nothing;
