@@ -227,8 +227,6 @@
   $('copyBtn').addEventListener('click', function () { copyText('Protocolo: ' + $('okNum').textContent + ' · Código: ' + $('okCode').textContent, $('okNum')); });
 
   /* ---------- Acompanhamento ---------- */
-  var EXEMPLO = { protocolo: '2026.004817', exemplo: true, tipo: 'Reclamação', assunto: 'Iluminação pública', secretaria: 'Obras e Serviços Públicos', endereco: 'Rua das Flores, 120', bairro: 'Centro', criada: '2026-10-12T14:04:00Z', prazo: '2026-11-11T14:04:00Z', status: 'Encaminhada',
-    eventos: [{ t: 'Recebida', d: '2026-10-12T14:04:00Z' }, { t: 'Analisada pela Ouvidoria', d: '2026-10-13T12:30:00Z' }, { t: 'Encaminhada à Obras e Serviços Públicos', d: '2026-10-14T17:12:00Z', msg: 'A equipe de iluminação pública incluiu o endereço na programação de vistoria.' }] };
   var current = null;
   function stBadge(r) {
     var late = O.isLate(r);
@@ -247,7 +245,6 @@
   });
   function track(prot, code, silent) {
     var err = $('trackErr');
-    if (prot === EXEMPLO.protocolo && String(code || '').toUpperCase() === 'EXEMPLO') { showTrack(EXEMPLO, code, silent); return Promise.resolve(true); }
     if (!sb) { err.hidden = false; err.textContent = 'O portal ainda não está ligado ao banco de dados.'; return Promise.resolve(false); }
     return sb.rpc('consultar_manifestacao', { p_protocolo: prot, p_codigo: code }).then(function (res) {
       if (res.error || !res.data) {
@@ -297,7 +294,7 @@
     var v = $('trackInput').value.trim().replace(/[^\d.]/g, ''), c = $('trackCode').value.trim().toUpperCase(), err = $('trackErr');
     if (/^\d{10}$/.test(v)) v = v.slice(0, 4) + '.' + v.slice(4);
     if (!v || !c) { err.hidden = false; err.textContent = 'Digite o protocolo e o código de acesso.'; (v ? $('trackCode') : $('trackInput')).focus(); return; }
-    if (c !== 'EXEMPLO' && /^[0-9A-F]{8}$/.test(c)) c = c.slice(0, 4) + '-' + c.slice(4);
+    if (/^[0-9A-F]{8}$/.test(c)) c = c.slice(0, 4) + '-' + c.slice(4);
     track(v, c);
   });
 

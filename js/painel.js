@@ -11,15 +11,14 @@
   var me = null;            // linha da tabela equipe de quem está logado
   var equipe = [];
   var real = {};            // manifestações do banco, por protocolo
-  var DEMO = null;
-  var adm = { started: false, demo: O.lsGet('ouv-demo', null), dims: { recl: 'local', elog: 'local' }, tipos: [], limit: 30, open: null, timer: null };
+  var adm = { started: false, dims: { recl: 'local', elog: 'local' }, tipos: [], limit: 30, open: null, timer: null };
 
   /* ================= Login ================= */
   function showErr(id, msg) { var e = $(id); if (!e) return; e.textContent = msg || ''; e.hidden = !msg; }
   function showLogin(which, msg) {
     $('admMain').hidden = true; $('admLogin').hidden = false;
     ['loginForm', 'signupForm', 'recoveryForm'].forEach(function (id) { $(id).hidden = id !== which + 'Form'; });
-    ['who', 'teamBtn', 'logoutBtn', 'demoWrap'].forEach(function (id) { $(id).hidden = true; });
+    ['who', 'teamBtn', 'logoutBtn'].forEach(function (id) { $(id).hidden = true; });
     if (which === 'login') showErr('lgErr', msg); else if (which === 'signup') showErr('suErr', msg); else showErr('rcErr', msg);
   }
   function pwdOk(p) { return p.length >= 10 && /[A-Za-zÀ-ú]/.test(p) && /\d/.test(p); }
@@ -107,7 +106,7 @@
   function showPanel() {
     $('admLogin').hidden = true; $('admMain').hidden = false;
     $('whoName').textContent = me.nome; $('whoRole').textContent = PERFIS[me.perfil] + (me.perfil === 'secretaria' ? ' · ' + me.secretaria : '');
-    $('who').hidden = false; $('logoutBtn').hidden = false; $('teamBtn').hidden = me.perfil !== 'ouvidor'; $('demoWrap').hidden = false;
+    $('who').hidden = false; $('logoutBtn').hidden = false; $('teamBtn').hidden = me.perfil !== 'ouvidor';
     if (!adm.started) {
       adm.started = true;
       $('fSec').innerHTML = '<option value="">Todas</option>' + SECS.map(function (s) { return '<option>' + esc(s) + '</option>'; }).join('');
@@ -140,56 +139,16 @@
   }
   $('refreshBtn').addEventListener('click', function () { loadData(); toast('Atualizado'); });
 
-  // Dados de exemplo (gerados no navegador, nunca gravados)
-  function buildDemo() {
-    var seed = 20261012; function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
-    function pick(a) { return a[Math.floor(rnd() * a.length)]; }
-    var BAIRROS = ['Centro', 'Jardim das Flores', 'Vila Nova', 'Bela Vista', 'Santa Rita', 'Parque dos Ipês', 'São José', 'Morada do Sol'];
-    var LOC = [['UBS Centro', 'Saúde · unidade ou atendimento', .55, 10], ['UBS Vila Nova', 'Saúde · unidade ou atendimento', .1, 12], ['Policlínica Municipal', 'Saúde · unidade ou atendimento', .25, 9],
-      ['Escola Municipal Monteiro Lobato', 'Educação · escola ou creche', .6, 7], ['CEI Pequeno Príncipe', 'Educação · escola ou creche', .35, 5],
-      ['Terminal Central', 'Transporte coletivo', .05, 11], ['Linha 104', 'Transporte coletivo', .08, 9], ['Praça da Matriz', 'Coleta de lixo e limpeza', .2, 6],
-      ['CRAS Bela Vista', 'Assistência social', .5, 5], ['Praça de Atendimento ao Cidadão', 'Atendimento de servidor', .4, 7],
-      ['', 'Iluminação pública', .03, 14], ['', 'Buraco ou pavimentação', .02, 15], ['', 'Coleta de lixo e limpeza', .08, 9]];
-    var tot = 0; LOC.forEach(function (l) { tot += l[3]; });
-    var TXT = { 'Iluminação pública': ['Poste apagado há mais de uma semana na rua.'], 'Buraco ou pavimentação': ['Buraco grande na pista, carros desviando pela contramão.'], 'Coleta de lixo e limpeza': ['A coleta não passou nesta semana.'],
-      'Saúde · unidade ou atendimento': ['Esperei mais de quatro horas para ser atendido.', 'Equipe muito atenciosa no atendimento.'], 'Educação · escola ou creche': ['A professora acompanhou meu filho com muito cuidado.'],
-      'Transporte coletivo': ['Ônibus atrasou 40 minutos no horário de pico.'], 'Assistência social': ['Fui muito bem orientada no cadastro.'], 'Atendimento de servidor': ['Atendimento rápido e educado.'] };
-    var out = [], now = Date.now();
-    for (var i = 0; i < 170; i++) {
-      var x = rnd() * tot, L = LOC[0]; for (var j = 0; j < LOC.length; j++) { x -= LOC[j][3]; if (x <= 0) { L = LOC[j]; break; } }
-      var age = Math.floor(Math.pow(rnd(), 1.3) * 100);
-      var t = rnd() < L[2] ? 'Elogio' : (function () { var y = rnd(); return y < .62 ? 'Reclamação' : y < .82 ? 'Solicitação' : y < .92 ? 'Denúncia' : 'Sugestão'; })();
-      var cri = new Date(now - age * DAY - Math.floor(rnd() * DAY));
-      var st = age > 40 ? (rnd() < .88 ? 'Respondida' : 'Encaminhada') : age > 20 ? (rnd() < .6 ? 'Respondida' : 'Encaminhada') : age > 5 ? pick(['Em análise', 'Encaminhada', 'Respondida']) : pick(['Nova', 'Em análise']);
-      if (t === 'Elogio' && age > 3) st = 'Respondida';
-      var nm = rnd(), mids = nm < .35 ? [{ kind: 'imagem' }] : nm < .45 ? [{ kind: 'video' }] : nm < .52 ? [{ kind: 'audio' }] : [];
-      var ev = [{ t: 'Recebida', d: cri.toISOString() }];
-      if (st !== 'Nova') ev.push({ t: 'Analisada pela Ouvidoria', d: new Date(cri.getTime() + DAY).toISOString() });
-      if (st === 'Encaminhada' || st === 'Respondida') ev.push({ t: 'Encaminhada à ' + secOf(L[1]), d: new Date(cri.getTime() + 2 * DAY).toISOString() });
-      if (st === 'Respondida') ev.push({ t: 'Respondida', d: new Date(cri.getTime() + Math.min(age, 12) * DAY).toISOString(), msg: 'Resposta registrada pela secretaria.' });
-      var md = rnd();
-      out.push({ protocolo: cri.getFullYear() + '.' + String(900000 + i), exemplo: true, tipo: t, assunto: L[1], secretaria: secOf(L[1]), unidade: L[0],
-        endereco: L[0] ? '' : 'Rua ' + pick(['das Acácias', 'Projetada A', 'Sete de Setembro', 'dos Ipês']) + ', ' + (10 + Math.floor(rnd() * 900)),
-        bairro: pick(BAIRROS), descricao: pick(TXT[L[1]] || ['Relato de exemplo.']), modo: md < .6 ? 'identificada' : md < .85 ? 'sigilo' : 'anonima',
-        nome: md < .85 ? 'Cidadão de exemplo' : undefined, criada: cri.toISOString(), prazo: new Date(cri.getTime() + 30 * DAY).toISOString(), status: st, midias: mids, eventos: ev,
-        ciencia: { avisoLegal: true, privacidade: true, em: cri.toISOString() } });
-    }
-    return out;
-  }
   function admRecords() {
     var list = Object.keys(real).map(function (k) { return real[k]; });
-    var useDemo = adm.demo === null ? list.length < 20 : adm.demo;
-    $('demoTgl').checked = useDemo;
-    if (useDemo) { if (!DEMO) DEMO = buildDemo(); list = list.concat(DEMO); }
     if (me && me.perfil === 'secretaria') list = list.filter(function (r) { return r.secretaria === me.secretaria; });
-    return { list: list, useDemo: useDemo, realCount: list.filter(function (r) { return !r.exemplo; }).length };
+    return { list: list, realCount: list.length };
   }
 
   ['fPer', 'fSec', 'fBai', 'fSt'].forEach(function (id) { $(id).addEventListener('change', function () { adm.limit = 30; renderAdmin(); }); });
   $('fQ').addEventListener('input', function () { adm.limit = 30; renderInbox(currentFiltered); });
   $('fTipo').addEventListener('click', function (e) { var b = e.target.closest('[data-t]'); if (!b) return; var t = b.getAttribute('data-t'), i = adm.tipos.indexOf(t); if (i < 0) adm.tipos.push(t); else adm.tipos.splice(i, 1); b.setAttribute('aria-pressed', i < 0 ? 'true' : 'false'); renderAdmin(); });
   $('fClear').addEventListener('click', function () { $('fPer').value = '90'; if (!(me && me.perfil === 'secretaria')) $('fSec').value = ''; $('fBai').value = ''; $('fSt').value = ''; $('fQ').value = ''; adm.tipos = []; Array.prototype.forEach.call(document.querySelectorAll('#fTipo .fchip'), function (b) { b.setAttribute('aria-pressed', 'false'); }); renderAdmin(); });
-  $('demoTgl').addEventListener('change', function () { adm.demo = this.checked; O.lsSet('ouv-demo', adm.demo); renderAdmin(); });
   Array.prototype.forEach.call(document.querySelectorAll('.seg[data-dim]'), function (seg) {
     seg.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; adm.dims[seg.getAttribute('data-dim')] = b.getAttribute('data-v');
       Array.prototype.forEach.call(seg.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); renderAdmin(); });
@@ -217,9 +176,7 @@
     var R = admRecords(), list = R.list;
     var bairros = {}; list.forEach(function (r) { if (r.bairro) bairros[r.bairro] = 1; });
     var curB = $('fBai').value; $('fBai').innerHTML = '<option value="">Todos</option>' + Object.keys(bairros).sort().map(function (b) { return '<option' + (b === curB ? ' selected' : '') + '>' + esc(b) + '</option>'; }).join('');
-    $('admSub').textContent = R.realCount + (R.realCount === 1 ? ' manifestação real' : ' manifestações reais') + ' · atualiza a cada minuto';
-    $('demoBanner').hidden = !R.useDemo;
-    $('demoBannerTxt').textContent = 'Incluindo manifestações de exemplo para demonstrar os gráficos. Elas têm a etiqueta "exemplo" e não estão no banco. Desmarque "Incluir dados de exemplo" para ver só as reais.';
+    $('admSub').textContent = R.realCount + (R.realCount === 1 ? ' manifestação recebida' : ' manifestações recebidas') + ' · atualiza a cada minuto';
     var f = applyFilters(list); currentFiltered = f;
     renderKpis(f);
     var noTipo = applyFilters(list, { ignoreTipo: true });
@@ -281,7 +238,7 @@
     }).join('') : '<tr><td colspan="7"><div class="empty">Nenhuma manifestação com estes filtros.</div></td></tr>';
     $('moreBtn').hidden = rows.length <= adm.limit;
   }
-  function findAdm(p) { if (real[p]) return real[p]; if (DEMO) for (var i = 0; i < DEMO.length; i++) if (DEMO[i].protocolo === p) return DEMO[i]; return null; }
+  function findAdm(p) { return real[p] || null; }
   $('inbox').addEventListener('click', function (e) { var tr = e.target.closest('tr[data-p]'); if (tr) openDrawer(tr.getAttribute('data-p')); });
   $('inbox').addEventListener('keydown', function (e) { if (e.key === 'Enter') { var tr = e.target.closest('tr[data-p]'); if (tr) openDrawer(tr.getAttribute('data-p')); } });
 
